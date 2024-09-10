@@ -3,10 +3,10 @@ package com.api.bigu.dto.ride;
 import com.api.bigu.dto.address.AddressResponse;
 import com.api.bigu.dto.car.CarResponse;
 import com.api.bigu.dto.user.UserResponse;
+import com.api.bigu.models.User;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Data

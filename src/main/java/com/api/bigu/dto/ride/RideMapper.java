@@ -8,6 +8,9 @@ import com.api.bigu.dto.user.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Objects;
+import java.util.stream.Collectors;
+
 @Component
 public class RideMapper {
 
@@ -50,6 +53,7 @@ public class RideMapper {
                 .car(carMapper.toCarResponse(rideCreated.getCar()))
                 .description(rideCreated.getDescription())
                 .isOver(rideCreated.getIsOver())
+                .riders(rideCreated.getMembers().stream().map(user -> userMapper.toUserResponse(user)).filter(userResponse -> !Objects.equals(userResponse.getUserId(), rideCreated.getDriverId())).collect(Collectors.toList()))
                 .build();
     }
 }

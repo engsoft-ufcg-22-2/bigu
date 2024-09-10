@@ -72,6 +72,7 @@ public class RideService {
         members.add(driver);
         ride.setMembers(members);
         ride.setIsOver(false);
+        ride.setDriverId(driver.getUserId());
         rideRepository.save(ride);
         userService.addRideToUser(driver.getUserId(), ride);
         return rideMapper.toRideResponse(ride);
@@ -102,6 +103,17 @@ public class RideService {
 
         }
         return allRides;
+    }
+
+    public List<RideResponse> getMyRides(Integer userId) {
+        List<Ride> rides = rideRepository.findAll();
+        List<RideResponse> myRides = new ArrayList<>();
+        for (Ride ride: rides) {
+            if(ride.getDriverId().equals(userId))
+                myRides.add(rideMapper.toRideResponse(ride));
+
+        }
+        return myRides;
     }
 
     public List<UserResponse> getRideMembers(Integer rideId) throws RideNotFoundException {
@@ -154,11 +166,10 @@ public class RideService {
         boolean isWomen = getUser(userId).getSex().equals("F");
         List<RideResponse> availableRides = new ArrayList<>();
         for (Ride ride: rides) {
+            System.err.println(ride.toString());
             if ((ride.getMembers().size() - 1 < ride.getNumSeats() && ride.getScheduledTime().isAfter(LocalDateTime.now()))){
                 if(isWomen || !ride.getToWomen()){
-                    if (!ride.getDriverId().equals(userId)) {
-                        availableRides.add(rideMapper.toRideResponse(ride));
-                    }
+                   availableRides.add(rideMapper.toRideResponse(ride));
                 }
             }
         }

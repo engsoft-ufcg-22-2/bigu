@@ -228,24 +228,6 @@ public class BiguApplication {
             addressRepository.save(addressRider2);
             userService.addAddressToUser(addressRider2, userRepository.findByEmail(riderF.getEmail()).get().getUserId());
 
-            RideRequest ride1 = RideRequest.builder()
-                            .carId(carRepository.findByUserId(driver.getUserId()).get().get(0).getCarId())
-                            .price(2.5)
-                            .dateTime(LocalDateTime.of(2024, 6, 2, 8, 0))
-                            .numSeats(3)
-                            .toWomen(false)
-                            .goingToCollege(true)
-                            .destinationAddressId(addressUFCG1.getAddressId())
-                            .startAddressId(addressDriver.getAddressId())
-                            .build();
-            try {
-                rideService.createRide(ride1, driver);
-            } catch (CarNotFoundException e) {
-                throw new NullPointerException("Carro não encontrado.");
-            } catch (InvalidTimeException e) {
-                throw new NullPointerException("Hora inválida.");
-            }
-
         };
     }
 }

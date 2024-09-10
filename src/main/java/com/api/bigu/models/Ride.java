@@ -1,5 +1,6 @@
 package com.api.bigu.models;
 
+import com.api.bigu.dto.user.UserResponse;
 import jakarta.persistence.*;
 import lombok.*;
 

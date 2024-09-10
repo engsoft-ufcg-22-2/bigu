@@ -58,6 +58,19 @@ public class RideController {
 
     }
 
+    @GetMapping("/my-rides")
+    public ResponseEntity<?> getMyRides(@RequestHeader("Authorization") String authorizationHeader) {
+        try {
+            Integer userId = jwtService.extractUserId(jwtService.parse(authorizationHeader));
+            jwtService.isTokenValid(jwtService.parse(authorizationHeader), rideService.getUser(userId));
+            List<RideResponse> myRides = rideService.getMyRides(userId);
+            return ResponseEntity.ok(myRides);
+        } catch (UserNotFoundException uNFE) {
+            return UserError.userNotFoundError();
+        }
+
+    }
+
     @GetMapping("/{rideId}")
     public ResponseEntity<?> searchById(@PathVariable Integer rideId) {
         try {
